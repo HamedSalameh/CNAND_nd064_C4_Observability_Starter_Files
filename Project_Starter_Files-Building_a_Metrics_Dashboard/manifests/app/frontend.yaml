@@ -1,7 +1,15 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: frontend-app
+  name: frontend-deployment
+  labels:
+    name: frontend
+    release: prometheus
+  annotations:
+    sidecar.jaegertracing.io/inject: 'true'
+    prometheus.io/scrape: 'true'
+    prometheus.io/path: /metrics
+    prometheus.io/port: frontendport
 spec:
   replicas: 3
   selector:
@@ -9,24 +17,51 @@ spec:
       app: frontend
   template:
     metadata:
+      name: frontend-pod
       labels:
         app: frontend
     spec:
       containers:
-      - name: frontend
-        # We advise you to build, push and use your own image, instead of using instructor's image.
-        image: ghcr.io/jasonsmithio/myfrontend:v1
-        ports:
-        - containerPort: 8080
+        - name: frontend
+          image: hamedsal/frontend:v1
+          imagePullPolicy: Always
+          ports:
+            - name: frontendport
+              containerPort: 8080
+              protocol: TCP
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: frontend-service
+  labels:
+    app: frontend
 spec:
   selector:
     app: frontend
   ports:
-    - port: 8080
-      targetPort: 8080
+    - name: frontend
+      protocol: TCP
+      port: 8080
+      targetPort: frontendport
   type: LoadBalancer
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: frontend-service-monitor
+  namespace: monitoring
+  labels:
+    app: frontend
+    release: prometheus
+spec:
+  endpoints:
+    - interval: 15s
+      port: frontend
+      path: /metrics
+  selector:
+    matchLabels:
+      app: frontend
+  namespaceSelector:
+    matchNames:
+      - default
