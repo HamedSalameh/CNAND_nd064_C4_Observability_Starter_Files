@@ -1,53 +1,96 @@
-**Note:** For the screenshots, you can store all of your answer images in the `answer-img` directory.
-
 ## Verify the monitoring installation
 
-*TODO:* run `kubectl` command to show the running pods and services for all components. Take a screenshot of the output and include it here to verify the installation
+**Default namespace**:  
+![Cluster resources](./answer-img/kubectl%20default%20namespace.jpg)
+
+**Monitoring namespace**  
+![Cluster resources](./answer-img/kubectl%20monitoring%20namespace.jpg)
+
+**Observability namespace**  
+![Cluster resources](./answer-img/kuibectl%20observability%20namespace.jpg)
 
 ## Setup the Jaeger and Prometheus source
-*TODO:* Expose Grafana to the internet and then setup Prometheus as a data source. Provide a screenshot of the home page after logging into Grafana.
+
+![Jaeger-Prometheus](./answer-img/grafana%20datasources.jpg)
 
 ## Create a Basic Dashboard
-*TODO:* Create a dashboard in Grafana that shows Prometheus as a source. Take a screenshot and include it here.
+
+![Basic Bashboard](./answer-img/prometheus%20dashboard.jpg)
 
 ## Describe SLO/SLI
-*TODO:* Describe, in your own words, what the SLIs are, based on an SLO of *monthly uptime* and *request response time*.
+Assuming the following SLO for monthly uptime and request response time
+
+    99.99% uptime in the year.
+    95% of requests completed in < 100 ms.
+
+We can describe SLIs as:
+
+    We got 99.98% uptime in the current year.
+    94% of the requests were completed in < 100 ms.
 
 ## Creating SLI metrics.
-*TODO:* It is important to know why we want to measure certain metrics for our customer. Describe in detail 5 metrics to measure these SLIs. 
+1. Number of error responses in a period of time - This measure might assist us in identifying potential bottlenecks and issues.
+2. The average time taken to return a response - This metric might enable us to find areas where we can improve the performance of our services.
+3. The average time taken recover a service if it goes down - This metric may be used to assess our ability to recover from potential failovers.
+4. Total uptime in a period of time - This metric could help us to measure the health & availability of our services
+5. Average percentage of memory or CPU used by a service in a period of time - This metric could aid us in assessing the effect of our services on system maintenance expenses and aid in our search for effective services.
 
 ## Create a Dashboard to measure our SLIs
-*TODO:* Create a dashboard to measure the uptime of the frontend and backend services We will also want to measure to measure 40x and 50x errors. Create a dashboard that show these values over a 24 hour period and take a screenshot.
+
+![Application dashboard](./answer-img/application%20dashboard.jpg)
 
 ## Tracing our Flask App
-*TODO:*  We will create a Jaeger span to measure the processes on the backend. Once you fill in the span, provide a screenshot of it here. Also provide a (screenshot) sample Python file containing a trace and span code used to perform Jaeger traces on the backend service.
+
+Please refere to the screenshots in answer-img folder.
+File name: "jaeger tracing the application.jpg"
+![Jaeger](./answer-img/jaeger%20tracing%20the%20application.jpg)
+
+Also, please refer to : "flask with span.jpg"
+![FlaskWithSpan](./answer-img/flask%20with%20span.jpg)
 
 ## Jaeger in Dashboards
-*TODO:* Now that the trace is running, let's add the metric to our current Grafana dashboard. Once this is completed, provide a screenshot of it here.
+
+![JaegerGrafana](./answer-img/traces%20in%20grafana.jpg)
 
 ## Report Error
-*TODO:* Using the template below, write a trouble ticket for the developers, to explain the errors that you are seeing (400, 500, latency) and to let them know the file that is causing the issue also include a screenshot of the tracer span to demonstrate how we can user a tracer to locate errors easily.
 
 TROUBLE TICKET
 
-Name:
+Name: Hamed Salameh
 
-Date:
+Date: March 8th, 2023
 
-Subject:
+Subject: !Urgent! - Multiple errors of 40x and 50x coming from our services (frontend/backend)
 
-Affected Area:
+Affected Area: User interface, API endpoints, application stability
 
-Severity:
+Severity: High
 
-Description:
+Description: Many calls are failing to process with sucess and failing with either 40x and 50x errors. please look into asap.
 
 
 ## Creating SLIs and SLOs
-*TODO:* We want to create an SLO guaranteeing that our application has a 99.95% uptime per month. Name four SLIs that you would use to measure the success of this SLO.
+SLI:
+- In the previous 24 hours, we received fewer than 10 incorrect responses.
+- The average response time was around 2000 milliseconds per minute.
+- In 99% of our responses, the data was formatted correctly.
+- We received 75% more correct responses than incorrect responses.
+
+SLO:
+- 99.9% uptime per month.
+- 99.9% of responses to our front-service will return 2xx, 3xx or 4xx HTTP code within 2000 ms.
+- 99.99% of transaction requests will succeed over any calendar month.
+- 99.9% of backend service requests will succeed on their first attempt.
 
 ## Building KPIs for our plan
-*TODO*: Now that we have our SLIs and SLOs, create a list of 2-3 KPIs to accurately measure these metrics as well as a description of why those KPIs were chosen. We will make a dashboard for this, but first write them down here.
+
+1. In the previous 24 hours, we received fewer than 10 incorrect responses.
+    Successful requests per minute: this KPI demonstrates how well our system performs.
+    Error requests per minute: this KPI corresponds to this SLI.
+
+2. We received 75% more correct responses than incorrect responses.
+    Successful requests per minute: this KPI indicates the number of successful request.
 
 ## Final Dashboard
-*TODO*: Create a Dashboard containing graphs that capture all the metrics of your KPIs and adequately representing your SLIs and SLOs. Include a screenshot of the dashboard here, and write a text description of what graphs are represented in the dashboard.  
+
+![GeneralDashboard](./answer-img/application%20dashboard.jpg)
