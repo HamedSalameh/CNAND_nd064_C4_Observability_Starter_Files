@@ -68,29 +68,47 @@ Severity: High
 
 Description: Many calls are failing to process with sucess and failing with either 40x and 50x errors. please look into asap.
 
+Attached is Jaeger's sample for error trace:
+![JaegerError](./answer-img/jaeger%20tracing%20the%20application%20-%20fix.jpg)
+
 
 ## Creating SLIs and SLOs
-SLI:
-- In the previous 24 hours, we received fewer than 10 incorrect responses.
-- The average response time was around 2000 milliseconds per minute.
-- In 99% of our responses, the data was formatted correctly.
-- We received 75% more correct responses than incorrect responses.
 
-SLO:
-- 99.9% uptime per month.
-- 99.9% of responses to our front-service will return 2xx, 3xx or 4xx HTTP code within 2000 ms.
-- 99.99% of transaction requests will succeed over any calendar month.
-- 99.9% of backend service requests will succeed on their first attempt.
+SLI:
+- Monthly Uptime Percentage  
+  The percentage of time that the service was available and ready to serve requests during a particular month.
+
+- Request Success Rate  
+  The percentage of service requests that are successfully executed without error.
+
+- Service Latency  
+  The time it takes for a request to be performed after it is received by the API.
+
+- Service Error Rate
+  The percentage of service requests that result in an error, i.e, returs http error 40x or 50x.
+
 
 ## Building KPIs for our plan
 
-1. In the previous 24 hours, we received fewer than 10 incorrect responses.
-    Successful requests per minute: this KPI demonstrates how well our system performs.
-    Error requests per minute: this KPI corresponds to this SLI.
+KPI's:
+- Request Success Rate: KPI is a threshold of 99.9%
+  It was selected because it has a very high success rate and a low percentage of failures, indicating that the service is working well and offering an excellent customer experience.
 
-2. We received 75% more correct responses than incorrect responses.
-    Successful requests per minute: this KPI indicates the number of successful request.
+- Latency: KPI is a threshold of 500 ms
+  reflects a pretty low latency that would be regarded acceptable for many sorts of online applications. This also suggests that the service is highly responsive and performant.
+
 
 ## Final Dashboard
 
 ![GeneralDashboard](./answer-img/application%20dashboard.jpg)
+
+The final dashboard offers the following panels and information:
+|Panel|Purpose|  
+|-|-|
+|Successful requests per minute|Show the rate of the incoming requests per minutes (HTTP 200)
+|Error Requests per minute|Shows the rate of the requests failing with either 40x or 50x oer minute.
+|Average Response time per minute|Shows the average response time of the api for incoming requests per minute.
+|Average Memory used per minute|Indicates the memory usage per minute by the service
+|Average CPU used per minute|Indicates the cpu usage per process/service per minute
+|Network IO pressure|Shows the overall network pressure (send/recieved) per minute
+|Traces|Shows Jaeger traces for services|
