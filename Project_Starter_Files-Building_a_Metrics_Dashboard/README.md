@@ -100,15 +100,15 @@ KPI's:
 
 ## Final Dashboard
 
-![GeneralDashboard](./answer-img/application%20dashboard.jpg)
+![GeneralDashboard](./answer-img/mainboard-final.jpg)
 
 The final dashboard offers the following panels and information:
 |Panel|Purpose|  
 |-|-|
-|Successful requests per minute|Show the rate of the incoming requests per minutes (HTTP 200)
-|Error Requests per minute|Shows the rate of the requests failing with either 40x or 50x oer minute.
-|Average Response time per minute|Shows the average response time of the api for incoming requests per minute.
-|Average Memory used per minute|Indicates the memory usage per minute by the service
-|Average CPU used per minute|Indicates the cpu usage per process/service per minute
-|Network IO pressure|Shows the overall network pressure (send/recieved) per minute
-|Traces|Shows Jaeger traces for services|
+|Total Requests per minute|The total number of request per minutes per response type|
+|Error Per second|The error rate we are getting poer second|
+|Requests Per seond|The rate of the incoming requests coming in per second|
+|Average response time|The average time ir takes the backend service to respond|
+|Request duration p-90|The 90th percentile of request durations over the last 30 seconds|
+|Request duration p-50|The 50th percentile of request durations over the last 30 seconds|
+|Traces|Application traces as caputred by Jaeger|
